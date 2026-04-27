@@ -140,6 +140,23 @@ export const rules: Rules = {
     }
   },
 
+  /** rule 3.9 (Larsson 2002) — negative system contact */
+  integrate_no_input: ({ is }) => {
+    if (is.shared.lu!.speaker === "usr") {
+      for (const move of is.shared.lu!.moves) {
+        if (move.type === "no_input") {
+          return () => ({
+            ...is,
+            private: {
+              ...is.private,
+              agenda: [{ type: "nsc", content: null }, ...is.private.agenda],
+            },
+          });
+        }
+      }
+    }
+  },
+
   /** TODO rule 2.7 integrate_usr_quit */
 
   /** TODO rule 2.8 integrate_sys_quit */
@@ -249,6 +266,21 @@ export const rules: Rules = {
           ...is.private,
           agenda: [action, ...is.private.agenda],
         },
+      });
+    }
+  },
+
+  /** rule 3.9 — select nsc move, and re-ask top QUD question if present */
+  select_nsc: ({ is }) => {
+    if (is.private.agenda[0] && is.private.agenda[0].type === "nsc") {
+      const nscMove: Move = { type: "nsc", content: null };
+      const extraMoves: Move[] =
+        is.shared.qud[0]
+          ? [{ type: "ask", content: is.shared.qud[0] }]
+          : [];
+      return () => ({
+        ...is,
+        next_moves: [...is.next_moves, nscMove, ...extraMoves],
       });
     }
   },
