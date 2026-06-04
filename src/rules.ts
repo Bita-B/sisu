@@ -160,6 +160,16 @@ export const rules: Rules = {
   /** TODO rule 2.7 integrate_usr_quit */
 
   /** TODO rule 2.8 integrate_sys_quit */
+  /** when no user input */
+  integrate_no_input: ({ is }) => {
+    // we check if latest utterance is from user and has no moves
+    if (is.shared.lu!.speaker === "usr" && is.shared.lu!.moves.length === 0) {
+      return () => ({
+        ...is,
+        next_moves: [{ type: "icm:per:neg", content: null }, ...is.next_moves],
+      });
+    }
+  },
 
   /**
    * DowndateQUD
