@@ -145,15 +145,7 @@ describe("DME tests", () => {
     ]);
   });
 
-  describe("system asks for day first", () => {
-    runTest([
-      { speaker: "sys", message: "Hello! You can ask me anything!" },
-      { speaker: "usr", message: "When is the lecture?" },
-      { speaker: "sys", message: "Which day?" },
-    ]);
-  });
-
-  describe("system answer depends on day", () => {
+  describe("system answer from database - Friday", () => {
     runTest([
       { speaker: "sys", message: "Hello! You can ask me anything!" },
       { speaker: "usr", message: "Where is the lecture?" },
@@ -165,6 +157,18 @@ describe("DME tests", () => {
     ]);
   });
 
+  describe("system answer from database - Tuesday", () => {
+    runTest([
+      { speaker: "sys", message: "Hello! You can ask me anything!" },
+      { speaker: "usr", message: "Where is the lecture?" },
+      { speaker: "sys", message: "Which day?" },
+      { speaker: "usr", message: "Tuesday" },
+      { speaker: "sys", message: "Which course?" },
+      { speaker: "usr", message: "Dialogue Systems 2" },
+      { speaker: "sys", message: "The lecture is in J440." },
+    ]);
+  });
+
   describe("Negative system contact feedback", () => {
     runTest([
       { speaker: "sys", message: "Hello! You can ask me anything!" },
@@ -173,7 +177,7 @@ describe("DME tests", () => {
     ]);
   });
 
-  describe("Negative feedback with repeated question", () => {
+  describe("Negative feedback followed by repeated question", () => {
     runTest([
       { speaker: "sys", message: "Hello! You can ask me anything!" },
       { speaker: "usr", message: "Where is the lecture?" },
