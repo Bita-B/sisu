@@ -139,6 +139,25 @@ export const rules: Rules = {
       }
     }
   },
+  /** not in lexicon*/
+  integrate_out_of_domain: ({ is }) => {
+    if (is.shared.lu!.speaker === "usr") {
+      for (const move of is.shared.lu!.moves) {
+        if (move.type === "out_of_domain") {
+          return () => ({
+            ...is,
+            private: {
+              ...is.private,
+              agenda: [
+                { type: "out_of_domain", content: null },
+                ...is.private.agenda,
+              ],
+            },
+          });
+        }
+      }
+    }
+  },
 
   /** rule 3.9 (Larsson 2002) — negative system contact */
   integrate_no_input: ({ is }) => {
@@ -161,29 +180,16 @@ export const rules: Rules = {
 
   /** TODO rule 2.8 integrate_sys_quit */
   /** when no user input */
-  integrate_no_input: ({ is }) => {
-    // we check if latest utterance is from user and has no moves
-    if (is.shared.lu!.speaker === "usr") {
-      for (const move of is.shared.lu!.moves) {
-        if (move.type === "no_input") {
-          return () => ({
-            ...is,
-            private: {
-              ...is.private,
-              agenda: [{ type: "nsc", content: null }, ...is.private.agenda],
-            },
-          });
-        }
-      }
-    }
-  },
 
   /**
    * DowndateQUD
    */
   /** rule 2.5 */
-  downdate_qud: ({ is }) => {
+   downdate_qud: ({ is }) => {
     const q = is.shared.qud[0];
+    if (!q) {
+      return;
+    }
     for (const p of is.shared.com) {
       if (resolves(p, q)) {
         return () => ({
@@ -298,6 +304,10 @@ export const rules: Rules = {
       return () => ({
         ...is,
         next_moves: [...is.next_moves, nscMove, ...extraMoves],
+        private: {
+          ...is.private,
+          agenda: is.private.agenda.slice(1),
+        },
       });
     }
   },
