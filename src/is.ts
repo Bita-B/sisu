@@ -45,7 +45,7 @@ export const initialIS = (): InformationState => {
           if (course == "LT2319" && day == "friday") {
             return { predicate: "booking_room", argument: "G212" };
           }
-          if (course == "LT2319" && == "tuesday") {
+          if (course == "LT2319" && day == "tuesday") {
         return { predicate: "booking_room", argument: "J440" };
           }
         }
