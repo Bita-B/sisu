@@ -30,8 +30,8 @@ export const initialIS = (): InformationState => {
           type: "issue",
           content: WHQ("booking_room"),
           plan: [
-            findout(WHQ("booking_course")),
             findout(WHQ("booking_day")),
+            findout(WHQ("booking_course")),
             consultDB(WHQ("booking_room")),
           ],
         },
