@@ -7,25 +7,31 @@ import {
   getFactArgument,
 } from "./utils";
 
+
 export const initialIS = (): InformationState => {
-  const predicates: { [index: string]: string } = {
-    // Mapping from predicate to sort
-    favorite_food: "food",
-    booking_course: "course",
-    booking_day: "day",
-  };
-  const individuals: { [index: string]: string } = {
-    // Mapping from individual to sort
-    pizza: "food",
-    LT2319: "course",
-    friday: "day",
-    tuesday: "day",
-  };
   return {
     domain: {
-      predicates: predicates,
-      individuals: individuals,
+      predicates: {
+        favorite_food: "food",
+        booking_course: "course",
+        booking_day: "day",
+      },
+      individuals: {
+        pizza: "food",
+        LT2319: "course",
+        Friday: "day",
+        Tuesday: "day",
+      },
       plans: [
+        {
+          type: "issue",
+          content: WHQ("booking_day"),
+          plan: [
+            findout(WHQ("booking_day")),
+            findout(WHQ("booking_course")),
+            consultDB(WHQ("booking_room")),
+          ],
+        },
         {
           type: "issue",
           content: WHQ("booking_room"),
@@ -46,7 +52,7 @@ export const initialIS = (): InformationState => {
             return { predicate: "booking_room", argument: "G212" };
           }
           if (course == "LT2319" && day == "tuesday") {
-        return { predicate: "booking_room", argument: "J440" };
+            return { predicate: "booking_room", argument: "J440" };
           }
         }
         return null;
