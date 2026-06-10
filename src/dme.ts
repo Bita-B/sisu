@@ -82,8 +82,10 @@ export const dme = setup({
         },
         SelectMove: {
           always: [
+            isuTransition("SelectionDone", "select_nsc"),
             isuTransition("SelectionDone", "select_ask"),
             isuTransition("SelectionDone", "select_answer"),
+            isuTransition("SelectionDone", "select_out_of_domain"),
             isuTransition("SelectionDone", "select_other"),
             { target: "SelectionDone" },
           ],
