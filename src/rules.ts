@@ -163,11 +163,18 @@ export const rules: Rules = {
   /** when no user input */
   integrate_no_input: ({ is }) => {
     // we check if latest utterance is from user and has no moves
-    if (is.shared.lu!.speaker === "usr" && is.shared.lu!.moves.length === 0) {
-      return () => ({
-        ...is,
-        next_moves: [{ type: "icm:per:neg", content: null }, ...is.next_moves],
-      });
+    if (is.shared.lu!.speaker === "usr") {
+      for (const move of is.shared.lu!.moves) {
+        if (move.type === "no_input") {
+          return () => ({
+            ...is,
+            private: {
+              ...is.private,
+              agenda: [{ type: "nsc", content: null }, ...is.private.agenda],
+            },
+          });
+        }
+      }
     }
   },
 
@@ -360,6 +367,18 @@ export const rules: Rules = {
           });
         }
       }
+    }
+  },
+    select_out_of_domain: ({ is }) => {
+    if (is.private.agenda[0]?.type === "out_of_domain") {
+      return () => ({
+        ...is,
+        next_moves: [{ type: "out_of_domain", content: null }],
+        private: {
+          ...is.private,
+          agenda: is.private.agenda.slice(1),
+        },
+      });
     }
   },
 
