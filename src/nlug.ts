@@ -82,7 +82,7 @@ const nlgMapping: NLGMapping = [
     "The lecture is in J440.",
   ],
   [
-    { type: "icm:per:neg", content: null },
+    { type: "nsc", content: null },
     "I didn't hear anything from you.",
   ],
 ];
