@@ -13,6 +13,12 @@ const nluMapping: NLUMapping = {
       content: WHQ("booking_room"),
     },
   ],
+    "when is the lecture?": [
+    {
+      type: "ask",
+      content: WHQ("booking_day"),
+    },
+  ],
   "what's your favorite food?": [
     {
       type: "ask",
@@ -85,6 +91,10 @@ const nlgMapping: NLGMapping = [
     { type: "nsc", content: null },
     "I didn't hear anything from you.",
   ],
+  [
+    { type: "out_of_domain", content: null },
+    "Sorry, I can't help with that.",
+  ]
 ];
 
 export function nlg(moves: Move[]): string {
