@@ -49,7 +49,12 @@ const nluMapping: NLUMapping = {
       content: "tuesday",
     },
   ],
-  "*no_input*": [],
+  "*no_input*": [
+    {
+      type: "no_input",
+      content: null,
+    },
+  ],
 };
 const nlgMapping: NLGMapping = [
   [{ type: "ask", content: WHQ("booking_course") }, "Which course?"],
