@@ -19,8 +19,8 @@ export const initialIS = (): InformationState => {
       individuals: {
         pizza: "food",
         LT2319: "course",
-        Friday: "day",
-        Tuesday: "day",
+        friday: "day",
+        tuesday: "day",
       },
       plans: [
         {
